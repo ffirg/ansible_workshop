@@ -2,6 +2,7 @@
 - name: perform rolling maintenance of web servers
   hosts: web
   become: yes
+  serial: 1
 
   tasks:
 
