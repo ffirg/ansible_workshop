@@ -1,0 +1,19 @@
+---
+- name: Show loadbalancer IP Address
+  hosts: loadbalancer
+  become: yes
+
+  tasks:
+
+  - name: Check we see both nodes serving content
+    uri:
+      url: http://{{ ansible_host }}
+      return_content: yes
+    register: content
+    retries: 5
+    until: "'{{ item.inventory_hostname }}' not in content.content"
+    with_items: "{{ groups.web }}"
+
+  - name: Print our loadbalancer address
+    debug:
+      msg: Please browse to http://{{ ansible_host }}
