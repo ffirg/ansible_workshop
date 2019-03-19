@@ -9,6 +9,6 @@
 
   - name: Template out new inventory
     template:
-      src: /tmp/inventory.j2
-      dest: /tmp/new_inv
+      src: inventory.j2
+      dest: /tmp/inventory
     run_once: true
