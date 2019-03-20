@@ -25,7 +25,7 @@
     reboot:
     when: kernel_patch is changed
 
-  - name: remove server from loadbalancer pool
+  - name: add server to loadbalancer pool
     haproxy:
       state: enabled
       socket: /var/lib/haproxy/stats
