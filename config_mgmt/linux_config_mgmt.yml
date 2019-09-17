@@ -7,14 +7,14 @@
     selinux:
       policy: targeted
       state: enforcing
-    when: config is changed
+    register: selinux
 
   - name: ensure chronyd is running and enabled
     service:
       name: chronyd
       state: started
       enabled: yes
-    when: config is changed
+    register: chronyd
 
   - name: log incident in servicenow
     snow_record:
@@ -30,12 +30,12 @@
         priority: 2
     register: snow_var
     delegate_to: localhost
-    when: config is changed
+    when: selinux or chronyd is changed
     become: false
 
   - name: display servicenow incident number
     debug:
       msg: "ServiceNow incident number is {{ snow_var.record.number }}."
     delegate_to: localhost
-    when: config is changed
+    when: selinux or chronyd is changed
     become: false
